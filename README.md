@@ -23,13 +23,15 @@ Built for the counter, not the office: a complete, professional invoice in **und
 
 ## 🚀 Run it
 
-Open `garage-invoice-mockup.html` in any modern browser. That's it.
+Open `index.html` in any modern browser, or use the live demo.
 
 ```bash
-# optional: serve it (not required)
+# optional: serve it locally (not required)
 python3 -m http.server 8000
-# → http://localhost:8000/garage-invoice-mockup.html
+# → http://localhost:8000/index.html
 ```
+
+> 🌐 **Live demo:** https://lenovobeast.github.io/Beast-Invoice/ (GitHub Pages)
 
 **Demo data:** 3 clients, 3 vehicles, 8 services, 9 parts, 1 overdue invoice. Tip: pick **Kai Osei** in a new invoice to see the smart-suggestion banner in action.
 
@@ -37,8 +39,9 @@ python3 -m http.server 8000
 
 ```
 Beast-Invoice/
-├── garage-invoice-mockup.html   # the entire app (HTML + CSS + JS, single file)
-└── INVOICE_SYSTEM_PLAN.md       # full system design & build plan
+├── index.html                   # the entire app (HTML + CSS + JS, single file)
+├── INVOICE_SYSTEM_PLAN.md       # full system design & build plan
+└── README.md
 ```
 
 ## 🗺 Roadmap
