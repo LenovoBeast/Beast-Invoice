@@ -203,6 +203,7 @@
     </div>
     <button class="btn btn-light btn-sm" onclick="alert('Mockup: barcode scanner would auto-fill the part number field here.')">📷 Scan part barcode</button>
     <button class="btn btn-light btn-sm" onclick="showView('settings')">🎨 Customize template</button>
+    <button class="btn btn-light btn-sm" onclick="exportData()">⬇ Export demo data</button>
   </div>
 </section>
 
@@ -243,6 +244,10 @@
     <div style="margin-top:14px;">
       <button class="btn btn-red" onclick="saveSettings()">Save settings</button>
       <span class="small muted" style="margin-left:8px;">Saved branding instantly restyles the invoice template.</span>
+    </div>
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
+      <button class="btn btn-light" onclick="exportData()">⬇ Export demo data (JSON)</button>
+      <span class="small muted" style="margin-left:8px;">Downloads everything — clients, vehicles, catalog, invoices — as a JSON file, ready to seed the real build later.</span>
     </div>
   </div>
 </section>
@@ -957,6 +962,26 @@ function saveSettings(){
 function resetDemo(){
   if(!confirm('Reset all mockup data back to the seed demo data?')) return;
   localStorage.removeItem(LS_KEY); load(); showView('dashboard'); toast('Demo data reset');
+}
+
+function exportData(){
+  const payload = {
+    app: 'beast-invoice-mockup',
+    version: 1,
+    exported_at: new Date().toISOString(),
+    db: DB
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'beast-invoice-demo-data-' + today() + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  toast('Exported ' + DB.clients.length + ' clients, ' + DB.vehicles.length + ' vehicles, ' +
+        DB.invoices.length + ' invoices — check your downloads');
 }
 
 /* boot */
