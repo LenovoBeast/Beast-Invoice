@@ -21,6 +21,16 @@ Built for the counter, not the office: a complete, professional invoice in **und
 - **📧 Mock email** — "Finish & Send" marks the invoice Sent and simulates delivery (placeholder for [Resend](https://resend.com) integration later).
 - **💾 Drafts & persistence** — data is stored in your browser's localStorage; `↺ Reset Demo` restores the seeded demo data anytime.
 
+## 🎬 Cinematic redesign (Phase 0)
+
+The dark "Showroom at Night" theme is in, and the invoice finale is now a **3D envelope sequence** (Three.js, lazily loaded — it never blocks the 60-second core flow):
+
+- **🎭 Seal & Send (3D)** — after *Finish & Send*, the invoice folds, slides into an envelope, gets a wax-seal stamp (sparks + haptics + thud), then launches off-screen.
+- **📩 Receive (3D)** — open any invoice from the Invoices list and watch the envelope fly in, seal pop, and the paper unfold.
+- Everything is **skippable** (Skip button, Esc, or click the scrim) and **degrades gracefully** — no WebGL, reduced-motion, or `?motion=off` falls back to the plain flow.
+- Branding accent set in Settings drives the UI focus rings, neon glow, *and* the 3D finale materials.
+- The printed/PDF invoice is untouched (light theme, frozen in `css/print.css`).
+
 ## 🚀 Run it
 
 Open `index.html` in any modern browser, or use the live demo.
@@ -35,13 +45,20 @@ python3 -m http.server 8000
 
 **Demo data:** 3 clients, 3 vehicles, 8 services, 9 parts, 1 overdue invoice. Tip: pick **Kai Osei** in a new invoice to see the smart-suggestion banner in action.
 
-## 🗂 Project structure
-
-```
+## 🗂 Project structure```
 Beast-Invoice/
-├── index.html                   # the entire app (HTML + CSS + JS, single file)
-├── INVOICE_SYSTEM_PLAN.md       # full system design & build plan
-└── README.md
+├── index.html               # app logic + markup (styles/3D split out below)
+├── css/tokens.css           # design tokens (color, type, motion, elevation)
+├── css/theme.css            # dark glass theme + cinematic overlay styles
+├── css/print.css            # ❄ frozen print sheet — do not restyle
+├── js/motion/tween.js       # dependency-free tween engine (shared rAF loop)
+├── js/main3d.js             # lazy 3D entry — exposes window.Beast3D
+├── three/scene-manager.js   # ONE WebGL context, DPR-capped, pause-on-hidden
+├── three/scenes/finale.js   # the envelope finale scene
+├── vendor/                  # Three.js r180 (self-hosted: three.module.js + three.core.js)
+├── assets/fonts/            # Space Grotesk + JetBrains Mono (self-hosted WOFF2)
+├── CINEMATIC_REDESIGN_PLAN.md  # the full redesign spec
+└── INVOICE_SYSTEM_PLAN.md   # full system design & build plan
 ```
 
 ## 🗺 Roadmap

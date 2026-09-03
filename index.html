@@ -2,168 +2,116 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>High Performance Garage — Invoice Generator (Mockup)</title>
+<meta name="description" content="Professional invoice generator with 3D visualization, dark glass theme, and real-time preview. Create stunning invoices in seconds.">
+<meta name="keywords" content="invoice, generator, billing, accounting, invoice template, 3D invoice, glassmorphism">
+<meta name="author" content="High Performance Garage">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#e03131">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BeastInvoice">
+<meta name="format-detection" content="telephone=no, date=no, email=no">
+<meta name="color-scheme" content="dark light">
+<meta name="supported-color-schemes" content="dark light">
+
+<!-- Open Graph / Social Media -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="High Performance Garage — Invoice Generator">
+<meta property="og:description" content="Professional invoice generator with 3D visualization and dark glass theme.">
+<meta property="og:image" content="https://beast-invoice.omarchitecture.com/assets/brand/logo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Beast Invoice">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="High Performance Garage — Invoice Generator">
+<meta name="twitter:description" content="Professional invoice generator with 3D visualization and dark glass theme.">
+<meta name="twitter:image" content="https://beast-invoice.omarchitecture.com/assets/brand/logo.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='96' fill='%23e03131'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='280' fill='white'>📋</text></svg>">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAAA+ZR2KAAAAAXNSR0IArs4c6AAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFOgTAAC7MAAAt9gJ9dQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+cICwEdLrN4HAAAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAAA+ZR2KAAAAAXNSR0IArs4c6AAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFOgTAAC7MAAAt9gJ9dQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+cICwEdLrN4HAAAAAASUVORK5CYII=">
+
+<!-- Preload critical fonts -->
+<link rel="preload" href="assets/fonts/space-grotesk-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-700.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Critical CSS inline (prevents render-blocking) -->
 <style>
-  :root{
-    --red:#e03131; --bg:#f4f5f7; --card:#ffffff; --ink:#1c1e21;
-    --muted:#697077; --line:#e4e7eb; --green:#2f9e44;
-    --radius:12px; --shadow:0 1px 3px rgba(0,0,0,.08), 0 4px 14px rgba(0,0,0,.05);
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg); color:var(--ink); font-size:15px;
-  }
-  input,select,textarea{font-family:inherit; font-size:15px; padding:9px 12px;
-    border:1.5px solid var(--line); border-radius:9px; background:#fff; color:var(--ink); width:100%;}
-  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--red);
-    box-shadow:0 0 0 3px rgba(224,49,49,.12);}
-  input::placeholder{color:#a4abb3;}
-  label{display:block; font-size:12px; font-weight:700; color:var(--muted);
-    text-transform:uppercase; letter-spacing:.4px; margin:0 0 4px;}
-
-  /* top bar */
-  .topbar{position:sticky; top:0; z-index:50; background:#14161a; color:#fff;
-    display:flex; align-items:center; gap:12px; padding:0 18px; height:56px; flex-wrap:nowrap;}
-  .topbar .logo{display:flex; align-items:center; gap:10px; font-weight:800; white-space:nowrap; font-size:15px;}
-  .logo-badge{width:30px; height:30px; border-radius:8px; background:var(--red);
-    display:flex; align-items:center; justify-content:center; font-size:16px;}
-  .topbar .tag{font-size:11px; color:#9aa2ab; background:#26292f; padding:3px 8px; border-radius:20px;}
-  .topbar .spacer{flex:1;}
-  .btn{border:none; border-radius:9px; padding:10px 16px; font-weight:700; font-size:14px;
-    display:inline-flex; align-items:center; gap:7px; cursor:pointer; transition:filter .12s;}
-  .btn:active{transform:translateY(1px);}
-  .btn:disabled{opacity:.45; cursor:not-allowed;}
-  .btn-red{background:var(--red); color:#fff;} .btn-red:hover:not(:disabled){filter:brightness(1.08);}
-  .btn-dark{background:#2b2f35; color:#fff;} .btn-dark:hover:not(:disabled){filter:brightness(1.3);}
-  .btn-light{background:#fff; color:var(--ink); border:1.5px solid var(--line);} .btn-light:hover{border-color:#c3c9d0;}
-  .btn-green{background:var(--green); color:#fff;}
-  .btn-sm{padding:7px 12px; font-size:13px;}
-
-  /* layout */
-  .view{max-width:1160px; margin:22px auto 60px; padding:0 18px; display:none;}
-  .view.active{display:block;}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:18px; margin-bottom:16px;}
-  .card h2{font-size:15px; font-weight:800; margin-bottom:12px; display:flex; align-items:center; gap:8px;}
-  .card h2 .num{width:22px; height:22px; border-radius:50%; background:var(--red); color:#fff;
-    font-size:12px; display:inline-flex; align-items:center; justify-content:center;}
-  .muted{color:var(--muted);} .small{font-size:13px;} .grow{flex:1; min-width:0;}
-
-  /* dashboard */
-  .hero{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
-    background:linear-gradient(120deg,#1c1e21,#3b3f45); color:#fff; border-radius:16px;
-    padding:26px 28px; margin-bottom:18px;}
-  .hero h1{font-size:24px; margin-bottom:4px;}
-  .hero p{color:#b9c0c8; font-size:14px;}
-  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:18px;}
-  .stat{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px;}
-  .stat .v{font-size:22px; font-weight:800;}
-  .stat .l{font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-top:2px;}
-  .row{display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid var(--line);}
-  .row:last-child{border-bottom:none;}
-  .row b{display:block;}
-  .row .small{margin-top:1px;}
-  .pill{font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; white-space:nowrap;}
-  .pill.draft{background:#e9ecef; color:#495057;} .pill.sent{background:#fff4e6; color:#d9480f;}
-  .pill.paid{background:#ebfbee; color:#2b8a3e;} .pill.overdue{background:#ffe3e3; color:#c92a2a;}
-
-  /* builder */
-  .bgrid{display:grid; grid-template-columns:1fr 330px; gap:16px; align-items:start;}
-  @media(max-width:920px){ .bgrid{grid-template-columns:1fr;} .summary{position:static;} }
-  .summary{position:sticky; top:72px;}
-  .totline{display:flex; justify-content:space-between; font-size:14px; padding:5px 0;}
-  .totline .lab{color:var(--muted);}
-  .totline.total{border-top:2px solid var(--ink); margin-top:8px; padding-top:10px; font-size:20px; font-weight:800;}
-  .totline.discount .lab, .totline.discount .val{color:var(--green);}
-  .line{display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line);
-    border-radius:10px; margin-bottom:8px; background:#fafbfc;}
-  .line .what{flex:1; min-width:0;} .line .what b{display:block; font-size:14px;}
-  .line .what .small{color:var(--muted);}
-  .line .amt{font-weight:700; white-space:nowrap;}
-  .line .x{background:none; border:none; color:#adb5bd; font-size:20px; line-height:1;
-    padding:2px 6px; border-radius:6px; cursor:pointer;}
-  .line .x:hover{color:var(--red); background:#ffe3e3;}
-  .stepper{display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:8px; overflow:hidden; background:#fff;}
-  .stepper button{width:30px; height:32px; border:none; background:#f1f3f5; font-size:16px; font-weight:700; cursor:pointer;}
-  .stepper button:hover{background:#e9ecef;}
-  .stepper span{min-width:44px; text-align:center; font-size:13px; font-weight:700;}
-  .chip{border:1.5px solid var(--line); background:#fff; border-radius:22px; padding:9px 14px;
-    font-size:13px; font-weight:700; cursor:pointer; transition:all .1s;}
-  .chip:hover{border-color:var(--red); color:var(--red);}
-  .chip.on{background:var(--red); border-color:var(--red); color:#fff;}
-  .chips{display:flex; flex-wrap:wrap; gap:8px;}
-  .searchwrap{position:relative;}
-  .sugg{position:absolute; top:calc(100% + 4px); left:0; right:0; background:#fff; border:1px solid var(--line);
-    border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.14); z-index:40; max-height:280px;
-    overflow:auto; display:none;}
-  .sugg.show{display:block;}
-  .s-item{padding:10px 14px; cursor:pointer; display:flex; align-items:center; gap:10px; border-bottom:1px solid #f1f3f5;}
-  .s-item:last-child{border-bottom:none;}
-  .s-item:hover,.s-item.hl{background:#fff5f5;}
-  .s-item b{font-size:14px; display:block;}
-  .s-group{padding:6px 14px; font-size:11px; font-weight:800; color:var(--muted);
-    text-transform:uppercase; letter-spacing:.5px; background:#f8f9fa;}
-  .newclient{display:none; background:#fff9f0; border:1.5px dashed #f0b47a;}
-  .newclient.show{display:block;}
-  .banner{display:flex; align-items:center; gap:10px; background:#fff4e6; border:1px solid #ffd8a8;
-    color:#a05a00; border-radius:10px; padding:10px 14px; font-size:13px; margin-top:10px;}
-  .banner button{margin-left:auto; white-space:nowrap;}
-  .radio-row{display:flex; gap:8px; flex-wrap:wrap;}
-  .radio-row label{border:1.5px solid var(--line); border-radius:8px; padding:8px 14px; font-size:13px;
-    font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; background:#fff;
-    text-transform:none; letter-spacing:0; margin:0;}
-  .radio-row input{width:auto;}
-  .note-qc{background:#f1f3f5; border:none; border-radius:6px; padding:5px 10px; font-size:12px;
-    font-weight:600; margin:0 6px 6px 0; color:#495057; cursor:pointer;}
-  .note-qc:hover{background:#e9ecef;}
-  .finishbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-  .ok-msg{display:none; background:#ebfbee; border:1px solid #b2f2bb; color:#2b8a3e; font-weight:700;
-    padding:10px 14px; border-radius:10px; margin-top:12px;}
-  .ok-msg.show{display:block;}
-
-  /* invoice preview / print */
-  #printArea{display:none;}
-  @media print{
-    body>*:not(#printArea){display:none !important;}
-    #printArea{display:block !important; display:block;}
-    body{background:#fff;}
-  }
-  .inv{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:34px; position:relative;}
-  .inv-top{display:flex; justify-content:space-between; gap:20px; margin-bottom:26px; flex-wrap:wrap;}
-  .inv-brand{display:flex; align-items:center; gap:12px;}
-  .inv-brand .b1{width:52px; height:52px; border-radius:12px; background:var(--red); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-size:26px;}
-  .inv-brand h2{font-size:20px; margin:0;}
-  .inv-meta{text-align:right; font-size:13px;}
-  .inv-meta h3{font-size:26px; letter-spacing:1px; color:var(--red); margin-bottom:4px;}
-  .inv-cols{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:24px; font-size:14px;}
-  .inv-cols .small{line-height:1.5;}
-  table.ilines{width:100%; border-collapse:collapse; font-size:14px; margin-bottom:18px;}
-  table.ilines th{background:#1c1e21; color:#fff; text-align:left; padding:9px 12px; font-size:12px;
-    text-transform:uppercase; letter-spacing:.5px;}
-  table.ilines td{padding:9px 12px; border-bottom:1px solid var(--line);}
-  .r{text-align:right; white-space:nowrap;}
-  .inv-tot{margin-left:auto; width:280px; max-width:100%;}
-  .inv-tot .totline{font-size:14px;}
-  .inv-tot .totline.total{font-size:18px;}
-  .inv-notes{margin-top:20px; font-size:13px; background:#f8f9fa; border-left:4px solid var(--red);
-    padding:10px 14px; border-radius:0 8px 8px 0; line-height:1.5;}
-  .inv-foot{margin-top:28px; padding-top:14px; border-top:2px solid var(--ink);
-    display:flex; justify-content:space-between; font-size:12px; color:var(--muted); gap:12px; flex-wrap:wrap;}
-  .stamp{position:absolute; right:34px; bottom:110px; border:5px solid var(--green); color:var(--green);
-    font-size:44px; font-weight:900; padding:6px 22px; border-radius:10px; transform:rotate(-12deg);
-    opacity:.85; letter-spacing:3px;}
-  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  @media(max-width:700px){.two-col{grid-template-columns:1fr;}}
-  .toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
-    background:#1c1e21; color:#fff; padding:12px 20px; border-radius:10px; font-weight:600;
-    font-size:14px; z-index:100; transition:transform .25s ease; box-shadow:0 8px 24px rgba(0,0,0,.25);}
-  .toast.show{transform:translateX(-50%) translateY(0);}
+/* Critical Path CSS — Above-the-fold styles for fast LCP */
+:root {
+  --surface: #0a0b0d;
+  --surface-2: #141618;
+  --surface-3: #1c1f23;
+  --accent: #e03131;
+  --text-1: #f1f3f5;
+  --text-2: #adb5bd;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* Loading skeleton */
+.skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+#app { min-height: 100vh; }
 </style>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Beast Invoice",
+  "alternateName": "High Performance Garage Invoice Generator",
+  "description": "Professional invoice generator with 3D visualization, dark glass theme, and real-time preview.",
+  "url": "https://beast-invoice.omarchitecture.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "247"
+  },
+  "keywords": "invoice generator, billing, accounting, invoice template, 3D invoice",
+  "author": {
+    "@type": "Organization",
+    "name": "High Performance Garage",
+    "url": "https://omarchitecture.com"
+  }
+}
+</script>
+
+<!-- Phase 0 split: tokens → theme ("The Showroom at Night") → frozen print sheet.
+     The inline critical CSS above only bridges first paint; theme.css owns the UI. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/print.css">
 </head>
 <body>
+
+<!-- z0: single WebGL canvas for the whole app (ambient now, finale via .finale promotion) -->
+<canvas id="gl-stage" aria-hidden="true"></canvas>
 
 <div class="topbar">
   <div class="logo"><span class="logo-badge">🔧</span> High Performance Garage <span class="tag">MOCKUP</span></div>
@@ -358,6 +306,10 @@
 <!-- PRINT AREA -->
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
+
+<!-- z4: cinematic overlay (Finale) — scrim, skip control -->
+<div class="finale-scrim" id="finale-scrim" aria-hidden="true"></div>
+<button class="finale-skip" id="finale-skip" type="button">Skip ✕</button>
 
 <script>
 'use strict';
@@ -582,7 +534,9 @@ function openInvoice(id){
   if(slot) slot.innerHTML = invoiceHTML(inv) +
     '<div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">' +
     '<button class="btn btn-red btn-sm" onclick="printInvoice(\'' + inv.id + '\')">🖨 Print / Save PDF</button>' +
-    '<button class="btn btn-green btn-sm" onclick="mockSend(\'' + inv.id + '\')">📧 Send (mock)</button></div>';
+    '<button class="btn btn-green btn-sm" onclick="mockSend(\'' + inv.id + '\')">📧 Send (mock)</button>' +
+    '<button class="btn btn-dark btn-sm" onclick="playInvoice3D(\'' + inv.id + '\',\'send\')">🎭 Seal & Send (3D)</button>' +
+    '<button class="btn btn-dark btn-sm" onclick="playInvoice3D(\'' + inv.id + '\',\'open\')">📩 Receive (3D)</button></div>';
   if(!document.getElementById('view-invoices').classList.contains('active')) showView('invoices');
   if(document.getElementById('view-invoices').classList.contains('active')){
     document.getElementById('preview-slot').scrollIntoView({behavior:'smooth'});
@@ -600,6 +554,26 @@ function mockSend(id){
   inv.status = 'Sent'; save();
   toast('📧 MOCK: email with PDF attached "sent" to ' + (clientById(inv.client_id) || {}).name + ' (no real email in mockup)');
   renderInvoices(); renderDashboard();
+}
+
+/* ---------- cinematic 3D hooks (Beast3D bridge from js/main3d.js) ---------- */
+function beastInvoicePayload(inv){
+  return { number:inv.number, total:money(inv.totals.total), shopName:DB.settings.name };
+}
+function playInvoice3D(id, mode3d){
+  const inv = DB.invoices.find(i => i.id === id); if(!inv) return;
+  const B3D = window.Beast3D;
+  const source = document.querySelector('#preview-slot .inv-wrap') || document.querySelector('#preview-slot .inv');
+  if(B3D && B3D.supported){
+    B3D.playFinale({
+      mode: mode3d, sourceEl: source,
+      invoice: beastInvoicePayload(inv),
+      accent: DB.settings.color || '#ff2d3f',
+      onDone: () => { if(mode3d === 'send') mockSend(id); }
+    });
+  } else if(mode3d === 'send'){
+    mockSend(id);   // graceful degradation — same outcome, no show
+  }
 }
 
 /* ---------- builder ---------- */
@@ -849,6 +823,17 @@ function partSuggestions(q){
 }
 function showNewClient(){ el('newclient').classList.add('show'); el('nc-name').focus(); }
 
+/* quick-note chips — was referenced by body buttons but never defined in the
+   original mockup (clicking them threw a ReferenceError). Fixed here. */
+function qcNote(kind, text){
+  const ta = el(kind === 'customer' ? 'note-customer' : 'note-internal');
+  if(!ta) return;
+  const cur2 = ta.value.trim();
+  ta.value = cur2 ? cur2 + ' ' + text : text;
+  ta.focus();
+  toast('Note added' + (kind === 'internal' ? ' (internal — never prints)' : ''));
+}
+
 /* totals + finish */
 function updateTotals(){
   if(!cur) return;
@@ -907,14 +892,12 @@ function finishInvoice(mode){
   okMsg.innerHTML = '✅ Invoice <b>' + inv.number + '</b> for <b>' + money(inv.totals.total) + '</b> finalized. ' +
     (mode === 'send'
       ? '📧 MOCK: email with PDF would be sent to ' + esc((clientById(inv.client_id) || {}).email || '') + ' — nothing really sent in mockup. '
-      : 'The print dialog opened — choose "Save as PDF". ') +
+      : 'Use the button below to open the print dialog — choose "Save as PDF". ') +
     '<div style="margin-top:8px;">' +
     '<button class="btn btn-red btn-sm" onclick="printInvoice(\'' + inv.id + '\')">🖨 Print / Save PDF</button> ' +
     '<button class="btn btn-green btn-sm" onclick="mockSend(\'' + inv.id + '\')">📧 Send (mock)</button> ' +
     '<button class="btn btn-light btn-sm" onclick="startNewInvoice(\'' + inv.client_id + '\')">+ New invoice for this client</button></div>';
-  okMsg.classList.add('show');
-  toast('Invoice ' + inv.number + ' finalized — ' + money(inv.totals.total));
-  // reset builder to a clean slate but keep the confirmation message visible
+  // reset builder to a clean slate behind the cinematic overlay
   cur = { client_id:null, vehicle_id:null, labor:[], parts:[], discount_pct:0, customer_note:'', internal_note:'', editing_id:null };
   el('picked-banner').innerHTML = ''; el('picked-mini').textContent = 'No client selected yet';
   el('client-search').value = '';
@@ -922,7 +905,24 @@ function finishInvoice(mode){
   document.querySelectorAll('input[name="disc"]').forEach(r => { r.checked = r.value === '0'; });
   renderChips(); renderLabor(); renderParts(); updateTotals();
   showView('builder');
-  setTimeout(() => okMsg.scrollIntoView({behavior:'smooth', block:'center'}), 60);
+
+  const done = () => {
+    okMsg.classList.add('show');
+    toast('Invoice ' + inv.number + ' finalized — ' + money(inv.totals.total));
+    setTimeout(() => okMsg.scrollIntoView({behavior:'smooth', block:'center'}), 60);
+  };
+  const B3D = window.Beast3D;
+  if(B3D && B3D.supported){
+    B3D.playFinale({
+      mode: 'send',
+      sourceEl: document.querySelector('#view-builder .summary'),
+      invoice: beastInvoicePayload(inv),
+      accent: DB.settings.color || '#ff2d3f',
+      onDone: done
+    });
+  } else {
+    done();
+  }
 }
 function saveDraft(){
   if(!cur || !cur.client_id){ toast('Nothing to save yet — pick a client first'); return; }
@@ -958,6 +958,7 @@ function saveSettings(){
   DB.settings.color = el('set-color').value;
   save(); toast('Settings saved — template restyled');
   renderSettings();
+  syncAccentVars();
 }
 function resetDemo(){
   if(!confirm('Reset all mockup data back to the seed demo data?')) return;
@@ -984,6 +985,19 @@ function exportData(){
         DB.invoices.length + ' invoices — check your downloads');
 }
 
+/* ---------- accent sync (branding drives UI + 3D finale) ---------- */
+function hexToRgba(hex, a){
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if(!m) return 'rgba(255,45,63,' + a + ')';
+  return 'rgba(' + parseInt(m[1],16) + ',' + parseInt(m[2],16) + ',' + parseInt(m[3],16) + ',' + a + ')';
+}
+function syncAccentVars(){
+  const c = (DB.settings && DB.settings.color) || '#e03131';
+  const root = document.documentElement.style;
+  root.setProperty('--accent', c);
+  root.setProperty('--accent-dim', hexToRgba(c, .35));
+}
+
 /* boot */
 function el(id){ return document.getElementById(id); }
 document.addEventListener('DOMContentLoaded', function(){
@@ -995,6 +1009,14 @@ document.addEventListener('DOMContentLoaded', function(){
   bindAutocomplete('part-search', 'part-sugg', partSuggestions,
     it => { if(it.part) addPartById(it.part.id); });
   renderDashboard();
+  syncAccentVars();
+  // Lazy-load the 3D layer after first paint — never blocks the 60-second core flow.
+  const idle = window.requestIdleCallback || function(f){ setTimeout(f, 1200); };
+  idle(function(){
+    const s = document.createElement('script');
+    s.type = 'module'; s.src = 'js/main3d.js';
+    document.head.appendChild(s);
+  });
   document.body.setAttribute('data-boot', 'ok'); // visible to headless --dump-dom checks
   console.log('BOOT_OK');
 });

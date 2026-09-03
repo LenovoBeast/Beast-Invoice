@@ -1,0 +1,55 @@
+# Apache .htaccess — Beast-Invoice
+# Performance, security, and SEO headers
+
+# ---- Performance ----
+<IfModule mod_headers.c>
+  # Cache static assets for 1 year (fonts, images, etc.)
+  <FilesMatch "\.(woff2|ico|svg|png|jpg|webp|gif|js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  
+  # Cache HTML for 1 hour (aggressive for single-page app)
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  
+  # Remove ETags (redundant with max-age)
+  Header unset ETag
+  FileETag None
+</IfModule>
+
+# ---- Security Headers ----
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Content Security Policy (tightened for self-hosted assets)
+  # Adjust if you add external CDN resources
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:;"
+  
+  # HSTS (uncomment after confirming HTTPS works)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ---- Compression ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json font/woff2
+</IfModule>
+
+# ---- URL Rewriting (SPA fallback) ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# ---- File Access Security ----
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

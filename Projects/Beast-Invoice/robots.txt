@@ -1,0 +1,13 @@
+# robots.txt — Beast-Invoice
+# https://beast-invoice.omarchitecture.com/
+
+User-agent: *
+Allow: /
+
+# Disallow non-production paths
+Disallow: /.utim_tmp/
+Disallow: /node_modules/
+Disallow: /vendor/
+
+# Sitemap
+Sitemap: https://beast-invoice.omarchitecture.com/sitemap.xml
