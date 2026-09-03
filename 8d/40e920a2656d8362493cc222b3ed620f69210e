@@ -1,0 +1,50 @@
+.utim_tmp/experience_cache_task_hash.txt
+  h_e5fbfa34adbdd7 1
+CINEMATIC_REDESIGN_PLAN.md
+  h_e5fbfa34adbdd7 1-391
+Projects/Beast-Invoice/.htaccess
+  h_e5fbfa34adbdd7 1-55
+Projects/Beast-Invoice/manifest.json
+  h_e5fbfa34adbdd7 1-21
+Projects/Beast-Invoice/netlify.toml
+  h_e5fbfa34adbdd7 1-25
+Projects/Beast-Invoice/robots.txt
+  h_e5fbfa34adbdd7 1-13
+Projects/Beast-Invoice/sitemap.xml
+  h_e5fbfa34adbdd7 1-9
+Projects/Beast-Invoice/vercel.json
+  h_e5fbfa34adbdd7 1-32
+README.md
+  h_e5fbfa34adbdd7 24-33,48,50-61
+css/print.css
+  h_e5fbfa34adbdd7 1-77
+css/theme.css
+  h_e5fbfa34adbdd7 1-409
+css/tokens.css
+  h_e5fbfa34adbdd7 1-80
+index.html
+  h_e5fbfa34adbdd7 5,7-46,48-72,74-109,113-115,310-313,537-539,559-578,826-836,895,900,908-925,961,988-1000,1012-1019
+js/main3d.js
+  h_e5fbfa34adbdd7 1-118
+js/motion/tween.js
+  h_e5fbfa34adbdd7 1-76
+three/scene-manager.js
+  h_e5fbfa34adbdd7 1-109
+three/scenes/finale.js
+  h_e5fbfa34adbdd7 1-342
+vendor/three.core.js
+  h_e5fbfa34adbdd7 1-58773
+vendor/three.module.js
+  h_e5fbfa34adbdd7 1-18251
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8d40e920a2656d8362493cc222b3ed620f69210e",
+  "prompts": {},
+  "humans": {
+    "h_e5fbfa34adbdd7": {
+      "author": "Lenovo Beast <lenovobeast.905@gmail.com>"
+    }
+  }
+}
