@@ -754,9 +754,30 @@ function stepperHTML(kind, idx, qty){
     '<button onclick="bumpQty(\'' + kind + '\',' + idx + ',1)">+</button></span>';
 }
 function bumpQty(kind, idx, d){
-  const arr = cur[kind]; arr[idx].qty = Math.max(1, arr[idx].qty + d);
-  if(kind === 'labor') renderLabor(); else renderParts();
+  const l = cur[kind][idx]; if(!l) return;
+  const newQty = Math.max(1, l.qty + d);
+  if(newQty === l.qty) return;
+  l.qty = newQty;
+  /* optimistic in-place update — no innerHTML rebuild, so rapid taps stay snappy
+     and only the stock-threshold crossing needs a full re-render (warning text) */
+  const line = el(kind === 'labor' ? 'labor-lines' : 'part-lines').children[idx];
+  if(!line || kind === 'parts' && crossingStock(l, newQty)){
+    (kind === 'labor' ? renderLabor : renderParts)();
+    return;
+  }
+  const stepper = line.querySelector('.stepper span');
+  if(stepper) stepper.textContent = l.qty;
+  const amt = line.querySelector('.amt');
+  if(amt) amt.textContent = money(l.qty * l.unit);
+  updateTotals();
 }
+function crossingStock(l, qty){
+  const p = DB.parts.find(x => x.id === l.ref);
+  return !!(p && p.stock != null && (qty === p.stock + 1 || qty === p.stock));
+}
+/* ⚠ unit-less labor lines: .line children are 4 elements — what, stepper, amt, x — so
+   children[idx] matches cur[kind][idx] 1:1. If a wrapper element is ever added around
+   a line, update this selector. */
 function removeLine(kind, idx){
   cur[kind].splice(idx, 1);
   if(kind === 'labor') renderLabor(); else renderParts();
