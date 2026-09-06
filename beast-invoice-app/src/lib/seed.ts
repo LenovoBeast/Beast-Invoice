@@ -81,7 +81,8 @@ export function seedData(): {
       ],
       discountPct: 5, customerNote: 'Please call before additional work.',
       internalNote: 'Customer sensitive about wheel scratches.',
-      totals: { labor: 129, parts: 72.5, discount: 10.08, subtotal: 191.42, tax: 16.08, total: 197.42 } },
+      // engine-computed snapshot (the mockup's hand-written 197.42 never added up)
+      totals: { labor: 129, parts: 72.5, discount: 10.07, subtotal: 191.43, tax: 16.08, total: 207.51 } },
   ]
   return { settings, clients, vehicles, services, parts, invoices }
 }

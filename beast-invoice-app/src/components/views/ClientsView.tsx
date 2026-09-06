@@ -47,8 +47,8 @@ export function ClientsView() {
 
       {showAdd && (
         <QuickAdd
-          onAdd={(input) => {
-            addClient(input)
+          onAdd={async (input) => {
+            await addClient(input)
             setShowAdd(false)
           }}
         />

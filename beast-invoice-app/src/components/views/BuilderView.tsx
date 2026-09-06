@@ -18,6 +18,15 @@ export function BuilderView() {
   const { settings, clients, vehicles, services, parts, draft } = store
   const hydrated = store.hydrated
   const [finished, setFinished] = useState<Invoice | null>(null)
+  const [finishing, setFinishing] = useState(false)
+
+  async function finish(status: 'Draft' | 'Sent') {
+    if (finishing) return
+    setFinishing(true)
+    const inv = await store.finalizeDraft(status)
+    setFinishing(false)
+    if (inv) setFinished(inv)
+  }
 
   useEffect(() => {
     if (hydrated && !draft && !finished) store.startDraft()
@@ -169,17 +178,17 @@ export function BuilderView() {
             <button
               type="button"
               className="btn btn-primary"
-              disabled={!draft?.clientId || draft.lines.length === 0}
-              onClick={() => setFinished(store.finalizeDraft('Sent') ?? null)}
+              disabled={finishing || !draft?.clientId || draft.lines.length === 0}
+              onClick={() => void finish('Sent')}
             >
               <PaperPlaneRight size={18} weight="bold" />
-              Finish & Send
+              {finishing ? 'Saving...' : 'Finish & Send'}
             </button>
             <button
               type="button"
               className="btn btn-ghost"
-              disabled={!draft?.clientId || draft.lines.length === 0}
-              onClick={() => setFinished(store.finalizeDraft('Draft') ?? null)}
+              disabled={finishing || !draft?.clientId || draft.lines.length === 0}
+              onClick={() => void finish('Draft')}
             >
               Save Draft
             </button>

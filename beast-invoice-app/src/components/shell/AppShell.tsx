@@ -7,6 +7,7 @@ import { useAppStore } from '@/lib/store/app'
 import { useSpatial } from '@/lib/store/spatial'
 import { zoneForPath } from '@/three/zones'
 import { SceneCanvas } from '../canvas/SceneCanvas'
+import { LoginGate } from './LoginGate'
 import { NavRail } from './NavRail'
 import { TabBar } from './TabBar'
 
@@ -17,6 +18,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const setZone = useSpatial((s) => s.setZone)
   const accentHex = useAppStore((s) => s.settings.accentHex)
+  const mode = useAppStore((s) => s.mode)
+  const authStatus = useAppStore((s) => s.authStatus)
+  const syncError = useAppStore((s) => s.syncError)
   const prevAccent = useRef<string | null>(null)
 
   useEffect(() => {
@@ -35,11 +39,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (from.toLowerCase() !== accentHex.toLowerCase()) shiftAccent(from, accentHex, apply)
   }, [accentHex])
 
+  if (mode === 'server' && authStatus === 'login') {
+    return (
+      <>
+        <div className="neon-pools" aria-hidden="true" />
+        <SceneCanvas />
+        <LoginGate />
+      </>
+    )
+  }
+
   return (
     <>
       <div className="neon-pools" aria-hidden="true" />
       <SceneCanvas />
       <NavRail />
+      {syncError && (
+        <div
+          role="status"
+          className="glass fixed left-1/2 top-3 z-50 -translate-x-1/2 border-warn/40 px-4 py-2 text-sm text-warn"
+        >
+          Sync issue: {syncError}
+        </div>
+      )}
       <main className="zone-main lg:pl-20">{children}</main>
       <TabBar />
     </>

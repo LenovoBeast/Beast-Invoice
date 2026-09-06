@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@phosphor-icons/react": "^2.1.7",
     "@react-three/fiber": "^9.3.0",
     "gsap": "^3.13.0",
@@ -24,6 +26,7 @@
     "@types/react-dom": "^19.1.0",
     "@types/three": "^0.180.0",
     "tailwindcss": "^4.1.0",
-    "typescript": "^5.8.0"
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
   }
 }

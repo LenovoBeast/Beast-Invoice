@@ -18,8 +18,10 @@ const ACCENT_PRESETS = [
 export function SettingsView() {
   const hydrated = useAppStore((s) => s.hydrated)
   const settings = useAppStore((s) => s.settings)
+  const mode = useAppStore((s) => s.mode)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const resetDemo = useAppStore((s) => s.resetDemo)
+  const logout = useAppStore((s) => s.logout)
   const [resetConfirm, setResetConfirm] = useState(false)
 
   if (!hydrated) {
@@ -98,29 +100,41 @@ export function SettingsView() {
         </fieldset>
       </form>
 
-      <section className="glass mt-4 p-5" aria-label="Demo data">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Demo data</h2>
-        <p className="mt-2 text-sm text-muted">Restore the seeded workshop. Everything you added in this browser is replaced.</p>
-        {resetConfirm ? (
-          <div className="mt-3 flex flex-wrap gap-3">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                resetDemo()
-                setResetConfirm(false)
-              }}
-            >
-              Yes, reset everything
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={() => setResetConfirm(false)}>Cancel</button>
-          </div>
-        ) : (
-          <button type="button" className="btn btn-ghost mt-3" onClick={() => setResetConfirm(true)}>
-            <ArrowClockwise size={16} /> Reset demo
+      {mode === 'server' ? (
+        <section className="glass mt-4 p-5" aria-label="Workshop data">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Workshop data</h2>
+          <p className="mt-2 text-sm text-muted">
+            Data lives in your cloud database (Turso) and syncs across every device you sign in from.
+          </p>
+          <button type="button" className="btn btn-ghost mt-3" onClick={() => void logout()}>
+            Sign out
           </button>
-        )}
-      </section>
+        </section>
+      ) : (
+        <section className="glass mt-4 p-5" aria-label="Demo data">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Demo data</h2>
+          <p className="mt-2 text-sm text-muted">Restore the seeded workshop. Everything you added in this browser is replaced.</p>
+          {resetConfirm ? (
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  resetDemo()
+                  setResetConfirm(false)
+                }}
+              >
+                Yes, reset everything
+              </button>
+              <button type="button" className="btn btn-ghost" onClick={() => setResetConfirm(false)}>Cancel</button>
+            </div>
+          ) : (
+            <button type="button" className="btn btn-ghost mt-3" onClick={() => setResetConfirm(true)}>
+              <ArrowClockwise size={16} /> Reset demo
+            </button>
+          )}
+        </section>
+      )}
       <div className="pb-16" />
     </div>
   )

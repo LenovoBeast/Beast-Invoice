@@ -3,13 +3,12 @@
 import { useEffect } from 'react'
 import { useAppStore } from '@/lib/store/app'
 
-/** Client-side rehydration gate (blueprint 7): the persisted store hydrates
-    after mount so SSR never mismatches; views show designed skeletons until then. */
+/** Boot: ask /api/state which mode we are in. Server mode delivers the Turso
+    snapshot (or the login gate); local mode falls back to localStorage. */
 export function Providers({ children }: { children: React.ReactNode }) {
+  const bootstrap = useAppStore((s) => s.bootstrap)
   useEffect(() => {
-    Promise.resolve(useAppStore.persist.rehydrate()).then(() => {
-      useAppStore.setState({ hydrated: true })
-    })
-  }, [])
+    void bootstrap()
+  }, [bootstrap])
   return <>{children}</>
 }
