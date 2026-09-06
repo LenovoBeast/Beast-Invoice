@@ -31,6 +31,22 @@ The dark "Showroom at Night" theme is in, and the invoice finale is now a **3D e
 - Branding accent set in Settings drives the UI focus rings, neon glow, *and* the 3D finale materials.
 - The printed/PDF invoice is untouched (light theme, frozen in `css/print.css`).
 
+## 🏗 Real build ("Showroom OS" — in progress)
+
+`beast-invoice-app/` is the production Next.js app implementing `BEAST_3D_BLUEPRINT.md`:
+React 19 + React Three Fiber 9 + GSAP + Tailwind v4 + zustand. Phase S0+A plus the first
+S1 slice are in: all zones render in 2D Flow mode, the WebGL showroom (floor grid, neon
+strips, ember particles, show car on the lift) boots lazily after first paint, and the
+60-second builder flow works end to end against localStorage.
+
+```bash
+cd beast-invoice-app
+npm install
+npm run dev   # http://localhost:3000
+```
+
+`?motion=off` disables the 3D layer entirely (Low tier; used by CI smoke tests).
+
 ## 🚀 Run it
 
 Open `index.html` in any modern browser, or use the live demo.

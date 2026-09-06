@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Tailwind v4 theme mapping (BEAST_3D_BLUEPRINT.md 4.2).
+   tokens.css stays the single source of truth; utilities like bg-bg-2,
+   text-muted, text-accent resolve to the CSS variables at runtime. */
+@theme inline {
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-accent: var(--accent);
+  --color-ember: var(--ember);
+  --color-ok: var(--green);
+  --color-warn: var(--amber);
+  --color-alert: var(--red-alert);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+/* ---------- base ---------- */
+html { color-scheme: dark; }
+body {
+  background: var(--bg-1);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+::selection { background: var(--accent); color: #0c0e12; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+.money { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- spatial layers (blueprint 2.3) ----------
+   z1 neon pools -> z2 WebGL canvas -> z10 content -> z40 chrome -> z50 overlay */
+.neon-pools {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(560px 420px at 12% 88%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%),
+    radial-gradient(480px 360px at 88% 12%, color-mix(in srgb, var(--ember) 6%, transparent), transparent 70%);
+}
+.scene-canvas {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  opacity: 0; transition: opacity 600ms var(--ease-out);
+}
+.scene-canvas.on { opacity: 1; }
+.zone-main { position: relative; z-index: 10; perspective: 1200px; }
+
+/* ---------- glass panel (labeled approximation; solid fallback mandatory) ---------- */
+.glass {
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  box-shadow: var(--edge-light), var(--shadow-2);
+  border-radius: 12px;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: var(--bg-2); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ---------- controls (shape system: 12px controls/cards, full-radius pills) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  border-radius: 12px; font-weight: 600; padding: .625rem 1rem; font-size: .9rem;
+  border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast), box-shadow var(--dur-fast);
+}
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+/* Dark text on the red accent: 4.7:1 contrast, passes AA where white-on-red fails */
+.btn-primary { background: var(--accent); color: #0c0e12; box-shadow: var(--glow); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: var(--bg-3); color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line-strong)); }
+
+.input {
+  width: 100%; background: var(--bg-3); border: 1px solid var(--line-strong);
+  border-radius: 12px; padding: .625rem .75rem; color: var(--ink); font-size: .925rem;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.input::placeholder { color: var(--muted); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  border: 1px solid var(--line-strong); background: var(--bg-3); color: var(--ink);
+  border-radius: 999px; padding: .5rem .95rem; font-size: .875rem; font-weight: 600;
+  cursor: pointer; transition: background var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast);
+}
+.chip:active { transform: scale(.96); }
+.chip[aria-pressed="true"] {
+  background: var(--accent); border-color: var(--accent); color: #0c0e12; box-shadow: var(--glow);
+}
+.chip .chip-price { color: var(--muted); font-size: .78rem; }
+.chip[aria-pressed="true"] .chip-price { color: color-mix(in srgb, #0c0e12 70%, transparent); }
+
+/* ---------- status pills: color + label, never color alone ---------- */
+.pill {
+  display: inline-flex; align-items: center; padding: .12rem .55rem;
+  border-radius: 999px; font-size: .7rem; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--line-strong);
+  color: var(--muted); white-space: nowrap;
+}
+.pill-sent { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); background: color-mix(in srgb, var(--amber) 9%, transparent); }
+.pill-paid { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); background: color-mix(in srgb, var(--green) 9%, transparent); }
+.pill-overdue { color: var(--red-alert); border-color: color-mix(in srgb, var(--red-alert) 45%, transparent); background: color-mix(in srgb, var(--red-alert) 10%, transparent); }
+.pill-vip { color: var(--ember); border-color: color-mix(in srgb, var(--ember) 45%, transparent); }
+
+/* ---------- states ---------- */
+.skel {
+  border-radius: 8px;
+  background: linear-gradient(100deg, var(--bg-2) 40%, var(--bg-3) 50%, var(--bg-2) 60%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise 500ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms); }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------- nav ---------- */
+.nav-item {
+  display: flex; align-items: center; gap: .65rem; width: 100%;
+  padding: .6rem .75rem; border-radius: 12px; color: var(--muted);
+  font-size: .875rem; font-weight: 600; transition: color var(--dur-fast), background var(--dur-fast), box-shadow var(--dur-fast);
+}
+.nav-item:hover { color: var(--ink); background: var(--bg-2); }
+.nav-item.active {
+  color: var(--ink); background: var(--bg-2);
+  box-shadow: inset 2px 0 0 var(--accent), var(--edge-light);
+}
+.nav-item.active .nav-ico { color: var(--accent); }
+
+.tabbar-item { display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .45rem 0; color: var(--muted); font-size: .62rem; font-weight: 600; flex: 1; }
+.tabbar-item.active { color: var(--accent); }
+
+/* ---------- tables / rows ---------- */
+.row-card { border-top: 1px solid var(--line); padding: .8rem 0; }
+.row-card:first-child { border-top: none; }
