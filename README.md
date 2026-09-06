@@ -57,7 +57,9 @@ Beast-Invoice/
 ├── three/scenes/finale.js   # the envelope finale scene
 ├── vendor/                  # Three.js r180 (self-hosted: three.module.js + three.core.js)
 ├── assets/fonts/            # Space Grotesk + JetBrains Mono (self-hosted WOFF2)
-├── CINEMATIC_REDESIGN_PLAN.md  # the full redesign spec
+├── BEAST_BUILD_PLAN.md      # real-build plan (Next.js + Turso + Vercel, $0 tier)
+├── BEAST_3D_BLUEPRINT.md    # "Showroom OS" 3D redesign blueprint (production target)
+├── CINEMATIC_REDESIGN_PLAN.md  # Phase 0 cinematic spec (superseded for architecture)
 └── INVOICE_SYSTEM_PLAN.md   # full system design & build plan
 ```
 
